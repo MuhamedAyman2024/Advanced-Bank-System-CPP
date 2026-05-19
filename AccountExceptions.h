@@ -22,8 +22,6 @@ public:
   }
 };
 
-
-
 class DepositLimitExceededException : public std::exception {
 public:
   std::string message;
@@ -73,6 +71,16 @@ public:
   virtual const char* what() const noexcept override {
     return message.c_str();
   }
+};
+
+class AccountClosedException : public std::runtime_error {
+public:
+  AccountClosedException() : std::runtime_error{"Error: Cannot modify or change status. This account is permanently closed."} {}
+};
+
+class InvalidAccountStateException : public std::runtime_error {
+public:
+  InvalidAccountStateException() : std::runtime_error{"Error: Illegal operation. The account is currently in a state that does not allow this action."} {}
 };
 
 #endif // H_ACCOUNTEXCEPTION_H

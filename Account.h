@@ -11,6 +11,9 @@ private:
   static constexpr double MAX_DEPOSIT = 50000.00;
   static constexpr double MIN_WITHDRAWAL = 20.00;
   static constexpr double MAX_WITHDRAWAL = 800.00;
+  enum class AccountStatus {Active, Closed, Frozen};
+  AccountStatus status {AccountStatus::Active};
+
 public:
   Account();
   Account(const std::string& name, int id, double balance);
@@ -24,7 +27,11 @@ public:
   double getMaxDeposit() const;
   double getMinWithdrawal() const;
   double getMaxWithdrawal() const;
+  // Print function
   virtual void print(std::ostream& os) const override;
+  // Account status Getters && Setters
+  AccountStatus getAccountStatus() const;
+  void setAccountStatus(AccountStatus status);
   virtual ~Account() = default;
 };
 

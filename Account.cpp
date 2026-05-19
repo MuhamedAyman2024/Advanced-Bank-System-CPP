@@ -8,6 +8,8 @@ Account::Account(const std::string& name, int id, double balance)
 
 // Deposit && Withdraw
 void Account::deposit(double amount) {
+  if(status == AccountStatus::Frozen || status == AccountStatus::Closed)
+    throw InvalidAccountStateException();
   if(amount < MIN_DEPOSIT)
     throw InvalidDepositException(amount, MIN_DEPOSIT);
   if (amount > MAX_DEPOSIT)
@@ -15,6 +17,8 @@ void Account::deposit(double amount) {
   balance += amount;
 }
 void Account::withdraw(double amount) {
+  if(status == AccountStatus::Frozen || status == AccountStatus::Closed)
+    throw InvalidAccountStateException();
   if(amount < MIN_WITHDRAWAL)
     throw MinimumWithdrawalException(amount, MIN_WITHDRAWAL);
   if(amount > MAX_WITHDRAWAL) 
@@ -45,6 +49,16 @@ double Account::getMinWithdrawal() const {
 }
 double Account::getMaxWithdrawal() const {
   return MAX_WITHDRAWAL;
+}
+
+//Getters && Setters for AccountStatus
+Account::AccountStatus Account::getAccountStatus() const {
+  return status;
+}
+void Account::setAccountStatus(AccountStatus status) {
+  if(this->status == AccountStatus::Closed)
+    throw AccountClosedException();
+  this->status = status;
 }
 
 // Print function from Interface
