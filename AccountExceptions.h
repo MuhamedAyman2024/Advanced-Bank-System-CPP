@@ -2,74 +2,47 @@
 #define H_ACCOUNTEXCEPTION_H
 #include <string>
 #include <exception>
+#include <stdexcept>
+#include <format> // C++20
 #include <sstream>
 #include <iomanip>
 
-class InvalidDepositException : public std::exception {
-public:
-  std::string message;
+class InvalidDepositException : public std::runtime_error {
+private:
   double amount;
   double minDeposit;
-  
-  InvalidDepositException(double amount, double minDeposit): amount{amount}, minDeposit{minDeposit} {
-    std::ostringstream stream;
-    stream << std::fixed << std::setprecision(2);
-    stream << "Minimum deposit limit not met. Requested: $" << amount << ", Min required: $" << minDeposit;
-    message = stream.str();
-  }
-  virtual const char* what() const noexcept override {
-    return message.c_str();
-  }
+public:
+  InvalidDepositException(double amount, double minDeposit) 
+  : std::runtime_error{std::format("Minimum deposit limit not met. Requested: ${:.2f}, Min required: ${:.2f}", amount, minDeposit)} {}
 };
 
-class DepositLimitExceededException : public std::exception {
-public:
-  std::string message;
+class DepositLimitExceededException : public std::runtime_error {
+private:
   double amount;
   double maxDeposit;
-
-  DepositLimitExceededException(double amount, double maxDeposit) : amount{amount}, maxDeposit{maxDeposit} {
-    std::ostringstream stream;
-    stream << std::fixed << std::setprecision(2);
-    stream << "Maximum deposit limit exceeded. Requested: $" << amount << ", Max allowed: $" << maxDeposit;
-    message = stream.str();
+public:
+  DepositLimitExceededException(double amount, double maxDeposit) 
+  : std::runtime_error{std::format("Maximum deposit limit exceeded. Requested: ${:.2f}, Max allowed: ${:.2f}", amount, maxDeposit)} {
   } 
-  virtual const char* what() const noexcept override {
-    return message.c_str();
-  }
 };
 
-class MinimumWithdrawalException : public std::exception {
-public:
-  std::string message;
+class MinimumWithdrawalException : public std::runtime_error {
+private:
   double amount;
   double minWithdrawal;
-
-  MinimumWithdrawalException(double amount, double minWithdrawal) : amount{amount}, minWithdrawal{minWithdrawal} {
-    std::ostringstream stream;
-    stream << std::fixed << std::setprecision(2);
-    stream << "Minimum withdrawal limit not met. Amount requested: $" << amount << ", Min required: $" << minWithdrawal;
-    message = stream.str();
-  }
-  virtual const char* what() const noexcept override {
-    return message.c_str();
+public:
+  MinimumWithdrawalException(double amount, double minWithdrawal) 
+  : std::runtime_error{std::format("Minimum withdrawal limit not met. Amount requested: ${:.2f}, Min required: ${:.2f}", amount, minWithdrawal)} {
   }
 };
 
-class MaximumWithdrawalExceededException : public std::exception {
-public:
-  std::string message;
+class MaximumWithdrawalExceededException : public std::runtime_error {
+private:
   double amount;
   double maxWithdrawal;
-  
-  MaximumWithdrawalExceededException(double amount, double maxWithdrawal) : amount{amount}, maxWithdrawal{maxWithdrawal} {
-    std::ostringstream stream;
-    stream << std::fixed << std::setprecision(2);
-    stream << "Maximum withdrawal limit exceeded. Amount requested: $" << amount << ", Max allowed: $" << maxWithdrawal;
-    message = stream.str();
-  }
-  virtual const char* what() const noexcept override {
-    return message.c_str();
+public:
+  MaximumWithdrawalExceededException(double amount, double maxWithdrawal) 
+  : std::runtime_error{std::format("Maximum withdrawal limit exceeded. Amount requested: ${:.2f}, Max allowed: ${:.2f}", amount, maxWithdrawal)} {
   }
 };
 
@@ -81,6 +54,18 @@ public:
 class InvalidAccountStateException : public std::runtime_error {
 public:
   InvalidAccountStateException() : std::runtime_error{"Error: Illegal operation. The account is currently in a state that does not allow this action."} {}
+};
+
+// SavingsAccount Exceptions
+class InsufficientFundException : public std::runtime_error {
+private:
+  double balance;
+  double amount;
+  double fee;
+public:
+  InsufficientFundException(double balance, double amount, double fee) 
+  : std::runtime_error{std::format("Error: Insufficient funds. Requested: ${:.2f}, Fee: ${:.2f}, Current Balance: ${:.2f}", amount, fee, balance)} {
+  }
 };
 
 #endif // H_ACCOUNTEXCEPTION_H

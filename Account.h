@@ -2,6 +2,9 @@
 #define H_ACCOUNT_H
 #include <string>
 #include "IPrintable.h"
+
+enum class AccountStatus {Active, Closed, Frozen};
+
 class Account : public IPrintable {
 private:
   std::string name;
@@ -11,7 +14,6 @@ private:
   static constexpr double MAX_DEPOSIT = 50000.00;
   static constexpr double MIN_WITHDRAWAL = 20.00;
   static constexpr double MAX_WITHDRAWAL = 800.00;
-  enum class AccountStatus {Active, Closed, Frozen};
   AccountStatus status {AccountStatus::Active};
 
 public:
@@ -22,7 +24,8 @@ public:
   std::string getName() const;
   int getId() const;
   double getBalance() const;
-  // Getters for Limitations to use in the UI
+  void feeDeduct(double fee);
+  // Getters for Limitations to use in the UI and the derived Accounts
   double getMinDeposit() const;
   double getMaxDeposit() const;
   double getMinWithdrawal() const;
