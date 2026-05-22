@@ -1,9 +1,8 @@
 #include <iostream>
-#include <vector>
-#include "Account.h"
-#include "SavingsAccount.h"
+#include "BankUI.h"
 
 int main() {
-
+  BankUI bank;
+  bank.run();
   return 0;
 }

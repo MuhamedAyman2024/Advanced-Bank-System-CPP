@@ -1,6 +1,6 @@
 #ifndef H_IPRINTABLE_H
 #define H_IPRINTABLE_H
-#include <iostream>
+#include <ostream>
 
 class IPrintable {
 friend std::ostream& operator<<(std::ostream& os, const IPrintable& obj) {

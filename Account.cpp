@@ -11,6 +11,8 @@ Account::Account(const std::string& name, int id, double balance)
     throw std::invalid_argument(std::format("Error: ID [{}]. not valid", id));
   if(balance < MIN_DEPOSIT)
     throw std::invalid_argument(std::format("Error: balance ${:.2f}. Initial balance must be at least ${:.2f}", balance, MIN_DEPOSIT));
+  if(balance > MAX_DEPOSIT)
+  throw std::invalid_argument(std::format("Error: balance ${:.2f} Initial balance must be less than ${:.2f}", balance, MAX_DEPOSIT));
 }
 
 // Deposit && Withdraw
@@ -75,5 +77,5 @@ void Account::setAccountStatus(AccountStatus status) {
 
 // Print function from Interface
 void Account::print(std::ostream& os) const {
-  os << "[Account name: " << name << " | ID: " << id << " | Balance: " << balance << "]";
+  os << "[Account name: " << name << " | ID: " << id << " | Balance: $" << balance << "]";
 }
