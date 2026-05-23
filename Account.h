@@ -26,15 +26,15 @@ public:
   double getBalance() const;
   void feeDeduct(double fee);
   // Getters for Limitations to use in the UI and the derived Accounts
-  double getMinDeposit() const;
-  double getMaxDeposit() const;
-  double getMinWithdrawal() const;
-  double getMaxWithdrawal() const;
+  static double getMinDeposit();
+  static double getMaxDeposit();
+  static double getMinWithdrawal();
+  static double getMaxWithdrawal();
   // Print function
   virtual void print(std::ostream& os) const override;
   // Account status Getters && Setters
   AccountStatus getAccountStatus() const;
-  void setAccountStatus(AccountStatus status);
+  void setAccountStatus(AccountStatus newStatus);
   virtual ~Account() = default;
 };
 

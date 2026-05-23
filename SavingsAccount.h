@@ -10,7 +10,7 @@ private:
   static constexpr double MIN_INIT_RATE = 1.0;
 public:
   SavingsAccount();
-  SavingsAccount(std::string name, int id, double balance, double interestRate);
+  SavingsAccount(const std::string& name, int id, double balance, double interestRate);
   virtual void deposit(double amount) override;
   virtual void withdraw(double amount) override;
   virtual void print(std::ostream& os) const override;

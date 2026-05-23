@@ -2,15 +2,16 @@
 #define H_BANKMANAGER_H
 #include "Account.h"
 #include <vector>
+#include <memory>
 
 class BankManager {
 private:
-  std::vector<Account*> bankAccounts;
+  std::vector<std::unique_ptr<Account>> bankAccounts;
 public:
   BankManager() = default;
-  void addAccount(Account* account);
+  void addAccount(std::unique_ptr<Account> account);
   Account* findAccount(const int id);
-  ~BankManager();
+  ~BankManager() = default;
 };
 
 #endif // H_BANKMANAGER_H

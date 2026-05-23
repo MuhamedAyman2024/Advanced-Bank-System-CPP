@@ -1,17 +1,13 @@
 #include "BankManager.h"
 
-void BankManager::addAccount(Account* account) {
-  bankAccounts.emplace_back(account);
+void BankManager::addAccount(std::unique_ptr<Account> account) {
+  bankAccounts.emplace_back(std::move(account));
 }
 
 Account* BankManager::findAccount(const int id) {
-  for(auto account: bankAccounts) {
-    if(id == account->getId()) return account;
+  for(const auto& account: bankAccounts) {
+    if(id == account->getId()) return account.get();
   }
   return nullptr;
 }
 
-BankManager::~BankManager() {
-  for(auto account: bankAccounts) delete account;
-  bankAccounts.clear();
-}

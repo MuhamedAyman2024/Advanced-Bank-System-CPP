@@ -52,16 +52,16 @@ void Account::feeDeduct(double fee) {
 }
 
 // Getters for Limitations to use in the UI
-double Account::getMinDeposit() const {
+double Account::getMinDeposit() {
   return MIN_DEPOSIT;
 }
-double Account::getMaxDeposit() const {
+double Account::getMaxDeposit() {
   return MAX_DEPOSIT;
 }
-double Account::getMinWithdrawal() const {
+double Account::getMinWithdrawal() {
   return MIN_WITHDRAWAL;
 }
-double Account::getMaxWithdrawal() const {
+double Account::getMaxWithdrawal() {
   return MAX_WITHDRAWAL;
 }
 
@@ -69,10 +69,10 @@ double Account::getMaxWithdrawal() const {
 AccountStatus Account::getAccountStatus() const {
   return status;
 }
-void Account::setAccountStatus(AccountStatus status) {
-  if(this->status == AccountStatus::Closed)
+void Account::setAccountStatus(AccountStatus newStatus) {
+  if(status == AccountStatus::Closed)
     throw AccountClosedException();
-  this->status = status;
+  status = newStatus;
 }
 
 // Print function from Interface
