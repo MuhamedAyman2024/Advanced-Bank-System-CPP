@@ -1,4 +1,5 @@
 #include "BankUI.h"
+#include "Account.h"
 #include "SavingsAccount.h"
 #include <iostream>
 #include <limits>
@@ -20,6 +21,11 @@ void BankUI::displayAccountTypeMenu() {
   std::cout << "[1] Savings Account\n"
             << "[2] Checking Account\n"
             << "[0] Back to main menu\n";
+}
+
+void BankUI::displaySearchMenu() {
+  std::cout << "\n[1] Find account via ID" << std::endl;
+  std::cout << "[0] Back to main menu" << std::endl;
 }
 
 bool BankUI::isValidName(const std::string& name) const {
@@ -95,7 +101,6 @@ Account* BankUI::createAccountUI() {
   switch (accountTypeChoice)
   {
   case 1:
-  // displayAccountGuidelines();
   {
     std::string name = readValidString("Enter name (Letters & spaces only): ");
     int id = readValidInt("Enter ID (Positive number > 0): ");
@@ -109,6 +114,37 @@ Account* BankUI::createAccountUI() {
     std::cout << "Invalid choice try again." << std::endl;
     break;
   }
+  return nullptr;
+}
+
+Account* BankUI::findAccountUI() {
+  displaySearchMenu();
+  int userChoice{};
+  do
+  {
+    userChoice = readValidInt("Enter choice: ");
+    switch (userChoice)
+    {
+    case 1:
+    {
+      int userID = readValidInt("Enter account ID: ");
+      Account* accountFound = bankManager.findAccount(userID);
+      if(accountFound)
+        return accountFound;
+      else {
+        std::cout << "Account does not exist." << std::endl;
+        displaySearchMenu();
+      }
+      break;
+    }
+    case 0:
+      std::cout << "Search cancelled. Returning to main menu..." << std::endl;
+      break;
+    default:
+      std::cout << "Invalid choice try again." << std::endl;
+      continue;
+    }
+  } while (userChoice != 0);
   return nullptr;
 }
 
@@ -126,7 +162,7 @@ void BankUI::run() {
         {
           Account* newAccount = createAccountUI();
           if(newAccount != nullptr) {
-            bank.addAccount(newAccount);
+            bankManager.addAccount(newAccount);
             std::cout << "Account: " << *newAccount 
                       << " Created Successfully!" 
                       << std::endl;
@@ -142,8 +178,12 @@ void BankUI::run() {
         break;
       }
       case 2:
-        std::cout << "Choice is 2\n";
+      {
+        Account* accountFound = findAccountUI();
+        if(accountFound != nullptr)
+          std::cout << "Account " << *accountFound << " Found Successfully!" << std::endl;
         break;
+      }
       default:
         break;
     }

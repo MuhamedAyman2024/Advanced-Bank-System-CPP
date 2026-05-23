@@ -7,7 +7,7 @@
 Account::Account() : name{"Unknown"}, id{0}, balance{0.0} {}
 Account::Account(const std::string& name, int id, double balance)
 : name{name}, id{id}, balance{balance} {
-  if(id <= 0)
+  if(id < 0)
     throw std::invalid_argument(std::format("Error: ID [{}]. not valid", id));
   if(balance < MIN_DEPOSIT)
     throw std::invalid_argument(std::format("Error: balance ${:.2f}. Initial balance must be at least ${:.2f}", balance, MIN_DEPOSIT));

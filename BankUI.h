@@ -5,14 +5,17 @@
 #include <string>
 class BankUI {
 private:
-  BankManager bank;
+  BankManager bankManager;
   void displayMenu();
   void displayAccountTypeMenu();
+  void displaySearchMenu();
   std::string readValidString(const std::string& prompt);
   bool isValidName(const std::string& name) const;
   int readValidInt(const std::string& prompt);
   double readValidDouble(const std::string& prompt);
   Account* createAccountUI();
+  Account* findAccountUI();
+
 public:
   void run();
 };
